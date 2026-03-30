@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import {
-  collection, addDoc, getDocs, updateDoc,
-  deleteDoc, doc, query, orderBy, serverTimestamp,
+  collection, getDocs, query, orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import FuzzyWireTab from "../components/FuzzyWireTab";
 import MaterialsTab from "../components/MaterialsTab";
+import FlowersTab from "../components/FlowersTab";
 import "../styles/Inventory.css";
 
 export default function InventoryPage() {
   const [activeTab, setActiveTab] = useState("fuzzywire");
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [toastMsg, setToastMsg] = useState("");
+  const [items, setItems]         = useState([]);
+  const [loading, setLoading]     = useState(true);
+  const [toastMsg, setToastMsg]   = useState("");
   const toastTimer = useRef(null);
 
   const showToast = (msg) => {
@@ -33,18 +33,17 @@ export default function InventoryPage() {
   };
 
   useEffect(() => {
-    fetchItems(activeTab);
+    if (activeTab !== "flowers") fetchItems(activeTab);
   }, [activeTab]);
 
   const handleTabSwitch = (tab) => {
     setActiveTab(tab);
-    setItems([]);
+    if (tab !== "flowers") setItems([]);
   };
 
   return (
     <div className="inventory-page">
 
-      {/* Page Header */}
       <div className="page-header">
         <h1 className="page-title">Inventory</h1>
         <p className="page-sub">Manage your stock and materials</p>
@@ -63,6 +62,12 @@ export default function InventoryPage() {
           onClick={() => handleTabSwitch("materials")}
         >
           🪣 Materials
+        </button>
+        <button
+          className={`tab-btn ${activeTab === "flowers" ? "active" : ""}`}
+          onClick={() => handleTabSwitch("flowers")}
+        >
+          🌸 Flowers
         </button>
       </div>
 
@@ -83,8 +88,10 @@ export default function InventoryPage() {
           showToast={showToast}
         />
       )}
+      {activeTab === "flowers" && (
+        <FlowersTab showToast={showToast} />
+      )}
 
-      {/* Toast */}
       {toastMsg && <div className="toast">{toastMsg}</div>}
     </div>
   );

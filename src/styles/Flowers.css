@@ -1,0 +1,209 @@
+/* ── Flower Grid ── */
+.flower-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.flower-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Image */
+.flower-img-wrap {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--surface2);
+  overflow: hidden;
+}
+.flower-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flower-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--text-muted);
+}
+
+/* Body */
+.flower-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.flower-name {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* Recipe */
+.flower-recipe {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.recipe-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+.recipe-icon  { font-size: 0.875rem; }
+.recipe-label { flex: 1; color: var(--text-muted); }
+.recipe-value { font-weight: 600; font-family: var(--font-mono); font-size: 0.8125rem; }
+.recipe-mat-title {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.recipe-materials { display: flex; flex-direction: column; gap: 4px; }
+
+/* Cost */
+.flower-cost {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.flower-cost .cost-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  opacity: 0.8;
+}
+.flower-cost .cost-amount {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+/* Actions */
+.flower-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn-ghost.sm, .btn-danger-ghost.sm {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.12s;
+}
+.btn-ghost.sm { color: var(--text-muted); }
+.btn-ghost.sm:hover { background: var(--bg); }
+.btn-danger-ghost.sm { color: var(--danger); border-color: #fecaca; }
+.btn-danger-ghost.sm:hover { background: var(--danger-light); }
+
+/* ── Image Upload ── */
+.image-upload-area {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  background: var(--surface2);
+}
+.image-upload-area:hover { border-color: var(--accent); }
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Material Rows in Modal ── */
+.mat-rows { display: flex; flex-direction: column; gap: 8px; }
+.mat-row  { display: flex; align-items: center; gap: 8px; }
+.mat-select {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  background: var(--surface2);
+  color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mat-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+.mat-qty {
+  width: 90px;
+  padding: 9px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  background: var(--surface2);
+  color: var(--text);
+  -webkit-appearance: none;
+}
+.mat-qty:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+.mat-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.12s, color 0.12s;
+}
+.mat-remove:hover { background: var(--danger-light); color: var(--danger); }
+
+/* Taller modal for flower form */
+.modal-card-tall {
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+  .flower-grid { grid-template-columns: 1fr; }
+}
