@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   collection, addDoc, updateDoc,
-  deleteDoc, doc, getDocs, serverTimestamp,
+  deleteDoc, doc, getDocs, serverTimestamp, getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import FlowerModal from "./FlowerModal";
@@ -15,23 +15,17 @@ export default function FlowersTab({ showToast }) {
   const [showModal, setShowModal]       = useState(false);
   const [editItem, setEditItem]         = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
-
-  // Bundle cost settings for fuzzy wire
   const [fuzzyPricePerPiece, setFuzzyPricePerPiece] = useState(0);
 
   const fetchAll = async () => {
     setLoading(true);
 
-    // Fetch flowers
     const flowerSnap = await getDocs(collection(db, "flowers"));
     setFlowers(flowerSnap.docs.map((d) => ({ id: d.id, ...d.data() })));
 
-    // Fetch materials list (for the modal dropdown)
     const matSnap = await getDocs(collection(db, "materials"));
     setMaterials(matSnap.docs.map((d) => ({ id: d.id, ...d.data() })));
 
-    // Fetch fuzzy wire cost settings
-    const { getDoc } = await import("firebase/firestore");
     const costSnap = await getDoc(doc(db, "settings", "fuzzy_wire_cost"));
     if (costSnap.exists()) {
       const { bundlePrice, bundleSize } = costSnap.data();
@@ -67,7 +61,6 @@ export default function FlowersTab({ showToast }) {
     showToast("🗑️ Flower deleted.");
   };
 
-  // Compute cost to make 1 flower
   const computeCost = (flower) => {
     const fuzzyCost = (flower.fuzzyCount || 0) * fuzzyPricePerPiece;
     const matCost = (flower.materials || []).reduce((sum, m) => {
@@ -101,7 +94,6 @@ export default function FlowersTab({ showToast }) {
             return (
               <div className="flower-card" key={flower.id}>
 
-                {/* Image */}
                 <div className="flower-img-wrap">
                   {flower.imageUrl ? (
                     <img src={flower.imageUrl} alt={flower.name} className="flower-img" />
@@ -110,7 +102,6 @@ export default function FlowersTab({ showToast }) {
                   )}
                 </div>
 
-                {/* Info */}
                 <div className="flower-body">
                   <h3 className="flower-name">{flower.name}</h3>
 
@@ -162,6 +153,7 @@ export default function FlowersTab({ showToast }) {
           materials={materials}
           onClose={() => setShowModal(false)}
           onSave={handleAdd}
+          showToast={showToast}
         />
       )}
       {editItem && (
@@ -170,6 +162,7 @@ export default function FlowersTab({ showToast }) {
           materials={materials}
           onClose={() => setEditItem(null)}
           onSave={handleEdit}
+          showToast={showToast}
         />
       )}
       {deleteTarget && (
