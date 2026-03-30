@@ -1,15 +1,13 @@
-/* ── Desktop Sidebar ── */
 .sidebar {
   width: 220px;
   min-height: 100vh;
-  background: #111827;
+  background: #0a0505;
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   padding: 24px 12px;
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  top: 0; left: 0; bottom: 0;
   z-index: 50;
 }
 
@@ -24,16 +22,11 @@
 .sidebar-logo-text {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   letter-spacing: -0.3px;
 }
 
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
+.sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
 
 .nav-item {
   display: flex;
@@ -42,7 +35,7 @@
   padding: 11px 12px;
   border: none;
   background: transparent;
-  color: #9ca3af;
+  color: var(--text-muted);
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.9375rem;
@@ -52,9 +45,9 @@
   width: 100%;
   -webkit-tap-highlight-color: transparent;
 }
-.nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.nav-item:hover  { background: var(--surface2); color: var(--text); }
 .nav-item.active { background: var(--accent); color: #fff; }
-.nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
+.nav-icon  { font-size: 1.1rem; width: 22px; text-align: center; }
 .nav-label { font-family: var(--font); }
 
 .sidebar-footer {
@@ -62,7 +55,7 @@
   flex-direction: column;
   gap: 10px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--border);
 }
 
 .sidebar-user {
@@ -84,10 +77,10 @@
   justify-content: center;
   flex-shrink: 0;
 }
-.user-info { overflow: hidden; }
-.user-email {
+.user-info   { overflow: hidden; }
+.user-email  {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--text-muted);
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -97,24 +90,25 @@
 .signout-btn {
   width: 100%;
   padding: 9px;
-  background: rgba(255,255,255,0.06);
-  color: #9ca3af;
-  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
-.signout-btn:hover { background: rgba(220,38,38,0.15); color: #f87171; }
+.signout-btn:hover { background: rgba(139,0,0,0.2); color: #e57373; border-color: var(--accent); }
 
-/* ── Mobile topbar (hidden on desktop) ── */
+/* Mobile topbar */
 .mobile-topbar {
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0;
-  background: #111827;
-  color: #fff;
+  background: #0a0505;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
   padding: 14px 16px;
   align-items: center;
   justify-content: space-between;
@@ -129,20 +123,20 @@
 }
 .mobile-user {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 160px;
 }
 
-/* ── Mobile bottom nav (hidden on desktop) ── */
+/* Mobile bottom nav */
 .mobile-bottom-nav {
   display: none;
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: #111827;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  background: #0a0505;
+  border-top: 1px solid var(--border);
   z-index: 100;
   padding: 6px 0 max(6px, env(safe-area-inset-bottom));
 }
@@ -155,7 +149,7 @@
   padding: 6px 4px;
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 0.625rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -164,11 +158,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 .mobile-nav-item .nav-icon { font-size: 1.25rem; }
-.mobile-nav-item.active { color: var(--accent); }
+.mobile-nav-item.active    { color: #e57373; }
 
-/* ── Responsive ── */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
-  .mobile-topbar { display: flex; }
+  .sidebar           { display: none; }
+  .mobile-topbar     { display: flex; }
   .mobile-bottom-nav { display: flex; }
 }

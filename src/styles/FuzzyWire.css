@@ -1,6 +1,5 @@
-.tab-content { padding: 16px; }
-
-.tab-toolbar {
+.tab-content  { padding: 16px; }
+.tab-toolbar  {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,9 +9,9 @@
 
 /* Wire Cards */
 .wire-list { display: flex; flex-direction: column; gap: 10px; }
-
 .wire-card {
   background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 14px 16px;
@@ -22,7 +21,6 @@
   flex-wrap: wrap;
 }
 
-/* Color swatch + name */
 .wire-identity {
   display: flex;
   align-items: center;
@@ -35,22 +33,19 @@
   height: 36px;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 2px solid rgba(0,0,0,0.08);
+  border: 2px solid rgba(255,255,255,0.1);
 }
-.wire-info { display: flex; flex-direction: column; gap: 2px; }
-.wire-name { font-weight: 600; font-size: 0.9375rem; }
+.wire-info        { display: flex; flex-direction: column; gap: 2px; }
+.wire-name        { font-weight: 600; font-size: 0.9375rem; color: var(--text); }
 .wire-color-label { font-size: 0.75rem; color: var(--text-muted); }
 
 /* Stock controls */
-.wire-stock {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.wire-stock { display: flex; align-items: center; gap: 8px; }
 .stock-btn {
   padding: 7px 12px;
   border: 1.5px solid var(--border);
   background: var(--surface2);
+  color: var(--text);
   border-radius: var(--radius-sm);
   font-size: 0.8125rem;
   font-weight: 700;
@@ -59,31 +54,24 @@
   -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
 }
-.stock-btn.plus:hover  { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
-.stock-btn.minus:hover { background: var(--danger-light);  border-color: var(--danger);  color: var(--danger); }
-.stock-btn:disabled    { opacity: 0.5; cursor: not-allowed; }
+.stock-btn.plus:hover  { background: rgba(139,0,0,0.2); border-color: var(--accent); color: #e57373; }
+.stock-btn.minus:hover { background: rgba(192,57,43,0.2); border-color: var(--danger); color: #e57373; }
+.stock-btn:disabled    { opacity: 0.4; cursor: not-allowed; }
 .stock-count {
   font-size: 1.125rem;
   font-weight: 700;
   font-family: var(--font-mono);
   min-width: 48px;
   text-align: center;
+  color: var(--text);
 }
 
-/* Cost */
-.wire-cost {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-.cost-label  { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
-.cost-value  { font-size: 0.9375rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent); }
-
-/* Actions */
+.wire-cost    { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.cost-label   { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+.cost-value   { font-size: 0.9375rem; font-weight: 700; font-family: var(--font-mono); color: #e57373; }
 .wire-actions { display: flex; gap: 4px; }
 
-/* Color picker in modal */
+/* Color picker */
 .color-presets {
   display: flex;
   flex-wrap: wrap;
@@ -99,8 +87,8 @@
   transition: transform 0.12s, border-color 0.12s;
   -webkit-tap-highlight-color: transparent;
 }
-.preset-swatch:hover   { transform: scale(1.15); }
-.preset-swatch.selected { border-color: var(--text); transform: scale(1.15); }
+.preset-swatch:hover    { transform: scale(1.15); }
+.preset-swatch.selected { border-color: #f5e6e6; transform: scale(1.15); }
 
 .custom-color-row {
   display: flex;
@@ -128,36 +116,26 @@
 .color-name-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+  box-shadow: 0 0 0 3px rgba(139,0,0,0.2);
 }
 
-/* Mobile */
-@media (max-width: 480px) {
-  .wire-card { gap: 12px; }
-  .stock-btn { padding: 8px 10px; font-size: 0.75rem; }
-}
-
-/* ── Summary Box ── */
+/* Summary Box */
 .summary-box {
   background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 20px;
   margin-bottom: 16px;
 }
-
 .summary-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-bottom: 16px;
 }
-.summary-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.summary-stat.accent .summary-value { color: var(--accent); }
+.summary-stat        { display: flex; flex-direction: column; gap: 4px; }
+.summary-stat.accent .summary-value { color: #e57373; }
 .summary-label {
   font-size: 0.6875rem;
   font-weight: 600;
@@ -170,9 +148,9 @@
   font-weight: 700;
   font-family: var(--font-mono);
   letter-spacing: -0.5px;
+  color: var(--text);
 }
 
-/* Bundle cost input row */
 .bundle-cost-row {
   display: flex;
   align-items: flex-end;
@@ -207,26 +185,23 @@
 .bundle-field input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+  box-shadow: 0 0 0 3px rgba(139,0,0,0.2);
 }
-.bundle-sep {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  padding-bottom: 10px;
-}
-.save-cost-btn { white-space: nowrap; align-self: flex-end; }
+.bundle-sep      { font-size: 0.875rem; color: var(--text-muted); font-weight: 500; padding-bottom: 10px; }
+.save-cost-btn   { white-space: nowrap; align-self: flex-end; }
 
-/* Cost preview in modal */
 .cost-preview {
-  background: var(--accent-light);
-  color: var(--accent);
+  background: rgba(139,0,0,0.15);
+  color: #e57373;
+  border: 1px solid rgba(139,0,0,0.3);
   padding: 10px 14px;
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
 }
 
 @media (max-width: 480px) {
+  .wire-card   { gap: 12px; }
+  .stock-btn   { padding: 8px 10px; font-size: 0.75rem; }
   .summary-stats { gap: 8px; }
   .summary-value { font-size: 1rem; }
   .bundle-cost-row { gap: 8px; }

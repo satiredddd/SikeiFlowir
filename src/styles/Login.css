@@ -5,11 +5,12 @@
   align-items: center;
   justify-content: center;
   padding: 24px 16px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 40%, #2563eb 100%);
+  background: radial-gradient(ellipse at top, #3d0000 0%, #1a0000 40%, #0a0000 100%);
 }
 
 .login-card {
   background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 40px 32px;
   width: 100%;
@@ -19,15 +20,12 @@
 }
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: none; }
+  to   { opacity: 1; transform: none; }
 }
 
-.login-logo {
-  text-align: center;
-  margin-bottom: 32px;
-}
-.logo-icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
-.logo-text {
+.login-logo { text-align: center; margin-bottom: 32px; }
+.logo-icon  { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+.logo-text  {
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -39,9 +37,9 @@
 
 .error-msg {
   font-size: 0.875rem;
-  color: var(--danger);
-  background: var(--danger-light);
+  color: #f87171;
+  background: rgba(139,0,0,0.2);
   padding: 10px 12px;
   border-radius: var(--radius-sm);
-  border: 1px solid #fecaca;
+  border: 1px solid rgba(139,0,0,0.4);
 }

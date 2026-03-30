@@ -1,7 +1,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.7);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -10,14 +10,14 @@
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* Center on desktop */
 @media (min-width: 600px) {
   .modal-overlay { align-items: center; padding: 20px; }
-  .modal-card { border-radius: var(--radius) !important; max-width: 480px; }
+  .modal-card    { border-radius: var(--radius) !important; max-width: 480px; }
 }
 
 .modal-card {
   background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px 20px 0 0;
   padding: 28px 24px 32px;
   width: 100%;
@@ -26,7 +26,7 @@
 }
 @keyframes sheetUp {
   from { transform: translateY(100%); }
-  to { transform: none; }
+  to   { transform: none; }
 }
 
 .modal-header {
@@ -35,9 +35,9 @@
   justify-content: space-between;
   margin-bottom: 20px;
 }
-.modal-header h2 { font-size: 1.25rem; font-weight: 700; }
+.modal-header h2 { font-size: 1.25rem; font-weight: 700; color: var(--text); }
 .modal-close {
-  background: var(--bg);
+  background: var(--surface2);
   border: none;
   width: 30px;
   height: 30px;
@@ -48,22 +48,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.12s;
 }
+.modal-close:hover { background: var(--border-strong); }
 
 .modal-form { display: flex; flex-direction: column; gap: 14px; }
 
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 6px;
-}
+.modal-actions { display: flex; gap: 10px; margin-top: 6px; }
 .modal-actions button { flex: 1; }
 
-/* Confirm modal */
-.confirm-card { text-align: center; padding: 36px 28px 32px; }
-.confirm-icon { font-size: 2.5rem; margin-bottom: 12px; }
-.confirm-card h2 { margin-bottom: 8px; }
-.confirm-card p {
+.confirm-card  { text-align: center; padding: 36px 28px 32px; }
+.confirm-icon  { font-size: 2.5rem; margin-bottom: 12px; }
+.confirm-card h2 { margin-bottom: 8px; color: var(--text); }
+.confirm-card p  {
   color: var(--text-muted);
   font-size: 0.9375rem;
   margin-bottom: 24px;

@@ -28,8 +28,8 @@ export default function LoginPage() {
 
         <div className="login-logo">
           <span className="logo-icon">📦</span>
-          <h1 className="logo-text">Stockr</h1>
-          <p className="logo-sub">Inventory Management</p>
+          <h1 className="logo-text">CiKei Fluff</h1>
+          <p className="logo-sub">me n my wife's inventory management</p>
         </div>
 
         <form onSubmit={handleLogin} className="login-form">

@@ -1,25 +1,26 @@
 /* ── Google Fonts ── */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
-/* ── CSS Variables (shared across all pages) ── */
+/* ── CSS Variables ── */
 :root {
-  --bg: #f4f5f7;
-  --surface: #ffffff;
-  --surface2: #f9fafb;
-  --border: #e5e7eb;
-  --border-strong: #d1d5db;
-  --text: #111827;
-  --text-muted: #6b7280;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-light: #eff6ff;
-  --danger: #dc2626;
-  --danger-hover: #b91c1c;
-  --danger-light: #fef2f2;
+  --bg: #0f0a0a;
+  --surface: #1a1010;
+  --surface2: #221515;
+  --border: #2e1a1a;
+  --border-strong: #3d2222;
+  --text: #f5e6e6;
+  --text-muted: #9e7a7a;
+  --accent: #8b0000;
+  --accent-hover: #a50000;
+  --accent-light: #1f0a0a;
+  --danger: #c0392b;
+  --danger-hover: #e74c3c;
+  --danger-light: #1a0a0a;
+  --success: #6b8f71;
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
   --font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'DM Mono', monospace;
 }
@@ -37,7 +38,7 @@ body {
 }
 input, button, select, textarea { font-family: inherit; }
 
-/* ── Shared Buttons (used across pages) ── */
+/* ── Shared Buttons ── */
 .btn-primary {
   padding: 12px 20px;
   background: var(--accent);
@@ -52,7 +53,7 @@ input, button, select, textarea { font-family: inherit; }
 }
 .btn-primary:hover { background: var(--accent-hover); }
 .btn-primary:active { transform: scale(0.98); }
-.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-ghost {
   padding: 11px 20px;
@@ -63,11 +64,61 @@ input, button, select, textarea { font-family: inherit; }
   font-size: 0.9375rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
-.btn-ghost:hover { background: var(--bg); }
+.btn-ghost:hover { background: var(--surface2); color: var(--text); }
 
 .btn-danger {
   padding: 11px 20px;
   background: var(--danger);
-  color: #fff; }
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover { background: var(--danger-hover); }
+
+/* ── Shared Form Fields ── */
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-group label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.field-group input {
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface2);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(139,0,0,0.2);
+  background: var(--surface);
+}
+
+.field-row { display: flex; gap: 12px; }
+.field-row .field-group { flex: 1; }
+
+/* ── Splash ── */
+.splash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 3rem;
+  background: var(--bg);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
