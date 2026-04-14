@@ -1,98 +1,43 @@
-import { useState, useEffect, useRef } from "react";
-import {
-  collection, getDocs, query, orderBy,
-} from "firebase/firestore";
-import { db } from "../firebase";
+import { useState } from "react";
 import FuzzyWireTab from "../components/FuzzyWireTab";
+import WrapperTab from "../components/WrapperTab";
 import MaterialsTab from "../components/MaterialsTab";
-import FlowersTab from "../components/FlowersTab";
+import OrderSettingsTab from "../components/OrderSettingsTab";
 import "../styles/Inventory.css";
 
-export default function InventoryPage() {
+export default function InventoryPage({ showToast }) {
   const [activeTab, setActiveTab] = useState("fuzzywire");
-  const [items, setItems]         = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [toastMsg, setToastMsg]   = useState("");
-  const toastTimer = useRef(null);
-
-  const showToast = (msg) => {
-    setToastMsg(msg);
-    clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToastMsg(""), 2800);
-  };
-
-  const fetchItems = async (category) => {
-    setLoading(true);
-    const q = query(
-      collection(db, category === "fuzzywire" ? "fuzzy_wire" : "materials"),
-      orderBy("createdAt", "desc")
-    );
-    const snap = await getDocs(q);
-    setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (activeTab !== "flowers") fetchItems(activeTab);
-  }, [activeTab]);
-
-  const handleTabSwitch = (tab) => {
-    setActiveTab(tab);
-    if (tab !== "flowers") setItems([]);
-  };
 
   return (
     <div className="inventory-page">
-
       <div className="page-header">
-        <h1 className="page-title">Inventory</h1>
-        <p className="page-sub">Manage your stock and materials</p>
+        <h1 className="page-title">Price Computation</h1>
+        <p className="page-sub">Manage your material costs and pricing</p>
       </div>
 
-      {/* Tabs */}
       <div className="tab-bar">
         <button
           className={`tab-btn ${activeTab === "fuzzywire" ? "active" : ""}`}
-          onClick={() => handleTabSwitch("fuzzywire")}
-        >
-          🧶 Fuzzy Wire
-        </button>
+          onClick={() => setActiveTab("fuzzywire")}
+        >🧶 Fuzzy Wire</button>
+        <button
+          className={`tab-btn ${activeTab === "wrapper" ? "active" : ""}`}
+          onClick={() => setActiveTab("wrapper")}
+        >🎀 Wrapper</button>
         <button
           className={`tab-btn ${activeTab === "materials" ? "active" : ""}`}
-          onClick={() => handleTabSwitch("materials")}
-        >
-          🪣 Materials
-        </button>
+          onClick={() => setActiveTab("materials")}
+        >🪣 Materials</button>
         <button
-          className={`tab-btn ${activeTab === "flowers" ? "active" : ""}`}
-          onClick={() => handleTabSwitch("flowers")}
-        >
-          🌸 Flowers
-        </button>
+          className={`tab-btn ${activeTab === "ordersettings" ? "active" : ""}`}
+          onClick={() => setActiveTab("ordersettings")}
+        >⚙️ Order Pricing</button>
       </div>
 
-      {/* Tab Content */}
-      {activeTab === "fuzzywire" && (
-        <FuzzyWireTab
-          items={items}
-          loading={loading}
-          onRefresh={() => fetchItems("fuzzywire")}
-          showToast={showToast}
-        />
-      )}
-      {activeTab === "materials" && (
-        <MaterialsTab
-          items={items}
-          loading={loading}
-          onRefresh={() => fetchItems("materials")}
-          showToast={showToast}
-        />
-      )}
-      {activeTab === "flowers" && (
-        <FlowersTab showToast={showToast} />
-      )}
-
-      {toastMsg && <div className="toast">{toastMsg}</div>}
+      {activeTab === "fuzzywire"     && <FuzzyWireTab     showToast={showToast} />}
+      {activeTab === "wrapper"       && <WrapperTab       showToast={showToast} />}
+      {activeTab === "materials"     && <MaterialsTab     showToast={showToast} />}
+      {activeTab === "ordersettings" && <OrderSettingsTab showToast={showToast} />}
     </div>
   );
 }

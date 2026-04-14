@@ -1,16 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import LoginPage from "./pages/LoginPage";
 import InventoryPage from "./pages/InventoryPage";
+import FlowersPage from "./pages/FlowersPage";
+import OrdersPage from "./pages/OrdersPage";
 import Sidebar from "./components/Sidebar";
 import "./App.css";
 import "./styles/Layout.css";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user,        setUser]        = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const [activePage, setActivePage] = useState("inventory");
+  const [activePage,  setActivePage]  = useState("inventory");
+  const [toastMsg,    setToastMsg]    = useState("");
+  const toastTimer = useRef(null);
+
+  const showToast = (msg) => {
+    setToastMsg(msg);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToastMsg(""), 2800);
+  };
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -21,11 +31,7 @@ export default function App() {
   }, []);
 
   if (authLoading) {
-    return (
-      <div className="splash">
-        <span>📦</span>
-      </div>
-    );
+    return <div className="splash"><span>📦</span></div>;
   }
 
   if (!user) return <LoginPage />;
@@ -34,28 +40,17 @@ export default function App() {
     <div className="app-layout">
       <Sidebar activePage={activePage} onNavigate={setActivePage} user={user} />
       <main className="app-main">
-        {activePage === "inventory" && <InventoryPage user={user} />}
-        {activePage === "dashboard" && (
-          <div className="coming-soon">
-            <span>📊</span>
-            <h2>Dashboard</h2>
-            <p>Coming soon</p>
-          </div>
-        )}
-        {activePage === "reports" && (
-          <div className="coming-soon">
-            <span>📈</span>
-            <h2>Reports</h2>
-            <p>Coming soon</p>
-          </div>
-        )}
-        {activePage === "settings" && (
+        {activePage === "inventory" && <InventoryPage showToast={showToast} />}
+        {activePage === "flowers"   && <FlowersPage  showToast={showToast} />}
+        {activePage === "orders"    && <OrdersPage   showToast={showToast} />}
+        {activePage === "settings"  && (
           <div className="coming-soon">
             <span>⚙️</span>
             <h2>Settings</h2>
             <p>Coming soon</p>
           </div>
         )}
+        {toastMsg && <div className="toast">{toastMsg}</div>}
       </main>
     </div>
   );

@@ -9,17 +9,16 @@ import ConfirmModal from "./ConfirmModal";
 import "../styles/Flowers.css";
 
 export default function FlowersTab({ showToast }) {
-  const [flowers, setFlowers]           = useState([]);
-  const [materials, setMaterials]       = useState([]);
-  const [loading, setLoading]           = useState(true);
-  const [showModal, setShowModal]       = useState(false);
-  const [editItem, setEditItem]         = useState(null);
-  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [flowers,           setFlowers]           = useState([]);
+  const [materials,         setMaterials]         = useState([]);
+  const [loading,           setLoading]           = useState(true);
+  const [showModal,         setShowModal]         = useState(false);
+  const [editItem,          setEditItem]          = useState(null);
+  const [deleteTarget,      setDeleteTarget]      = useState(null);
   const [fuzzyPricePerPiece, setFuzzyPricePerPiece] = useState(0);
 
   const fetchAll = async () => {
     setLoading(true);
-
     const flowerSnap = await getDocs(collection(db, "flowers"));
     setFlowers(flowerSnap.docs.map((d) => ({ id: d.id, ...d.data() })));
 
@@ -31,17 +30,13 @@ export default function FlowersTab({ showToast }) {
       const { bundlePrice, bundleSize } = costSnap.data();
       setFuzzyPricePerPiece(bundlePrice / bundleSize || 0);
     }
-
     setLoading(false);
   };
 
   useEffect(() => { fetchAll(); }, []);
 
   const handleAdd = async (data) => {
-    await addDoc(collection(db, "flowers"), {
-      ...data,
-      createdAt: serverTimestamp(),
-    });
+    await addDoc(collection(db, "flowers"), { ...data, createdAt: serverTimestamp() });
     await fetchAll();
     setShowModal(false);
     showToast("🌸 Flower added!");
@@ -61,14 +56,13 @@ export default function FlowersTab({ showToast }) {
     showToast("🗑️ Flower deleted.");
   };
 
-  const computeCost = (flower) => {
+  const computeAutoCost = (flower) => {
     const fuzzyCost = (flower.fuzzyCount || 0) * fuzzyPricePerPiece;
     const matCost = (flower.materials || []).reduce((sum, m) => {
       const found = materials.find((x) => x.id === m.materialId);
       if (!found) return sum;
       const perPiece = found.bundlePrice && found.bundleSize
-        ? found.bundlePrice / found.bundleSize
-        : 0;
+        ? found.bundlePrice / found.bundleSize : 0;
       return sum + perPiece * (m.qty || 0);
     }, 0);
     return fuzzyCost + matCost;
@@ -90,7 +84,7 @@ export default function FlowersTab({ showToast }) {
       ) : (
         <div className="flower-grid">
           {flowers.map((flower) => {
-            const cost = computeCost(flower);
+            const autoCost = computeAutoCost(flower);
             return (
               <div className="flower-card" key={flower.id}>
 
@@ -111,7 +105,6 @@ export default function FlowersTab({ showToast }) {
                       <span className="recipe-label">Fuzzy Wire</span>
                       <span className="recipe-value">{flower.fuzzyCount || 0} pcs</span>
                     </div>
-
                     {(flower.materials || []).length > 0 && (
                       <div className="recipe-materials">
                         <span className="recipe-mat-title">Materials</span>
@@ -129,11 +122,22 @@ export default function FlowersTab({ showToast }) {
                     )}
                   </div>
 
-                  <div className="flower-cost">
-                    <span className="cost-label">Cost to make</span>
-                    <span className="cost-amount">
-                      ₱{cost.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                    </span>
+                  {/* Cost breakdown */}
+                  <div className="flower-cost-breakdown">
+                    <div className="cost-row-item">
+                      <span className="cost-row-label">🧮 Computed Cost</span>
+                      <span className="cost-row-value muted">
+                        ₱{autoCost.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                    <div className="cost-row-item selling">
+                      <span className="cost-row-label">🏷️ Selling Price</span>
+                      <span className="cost-row-value accent">
+                        {flower.sellingPrice
+                          ? `₱${parseFloat(flower.sellingPrice).toLocaleString("en-PH", { minimumFractionDigits: 2 })}`
+                          : <span className="muted">—</span>}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="flower-actions">

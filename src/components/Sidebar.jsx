@@ -4,15 +4,14 @@ import "../styles/Sidebar.css";
 
 const navItems = [
   { id: "inventory", icon: "📦", label: "Inventory" },
-  { id: "dashboard", icon: "📊", label: "Dashboard" },
-  { id: "reports",   icon: "📈", label: "Reports"   },
-  { id: "settings",  icon: "⚙️",  label: "Settings"  },
+  { id: "flowers",   icon: "🌸", label: "Flowers"   },
+  { id: "orders",    icon: "🧾", label: "Orders"     },
+  { id: "settings",  icon: "⚙️",  label: "Settings"   },
 ];
 
 export default function Sidebar({ activePage, onNavigate, user }) {
   return (
     <>
-      {/* Mobile topbar */}
       <header className="mobile-topbar">
         <div className="topbar-brand">
           <span>📦</span> Stockr
@@ -20,11 +19,10 @@ export default function Sidebar({ activePage, onNavigate, user }) {
         <span className="mobile-user">{user.email}</span>
       </header>
 
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-logo">
           <span className="sidebar-logo-icon">📦</span>
-          <span className="sidebar-logo-text">Sikei</span>
+          <span className="sidebar-logo-text">Stockr</span>
         </div>
 
         <nav className="sidebar-nav">
@@ -55,7 +53,6 @@ export default function Sidebar({ activePage, onNavigate, user }) {
         </div>
       </aside>
 
-      {/* Mobile bottom nav */}
       <nav className="mobile-bottom-nav">
         {navItems.map((item) => (
           <button

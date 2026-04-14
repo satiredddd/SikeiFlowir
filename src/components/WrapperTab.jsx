@@ -5,11 +5,11 @@ import {
   serverTimestamp, query, orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import MaterialModal from "./MaterialModal";
+import WrapperModal from "./WrapperModal";
 import ConfirmModal from "./ConfirmModal";
 import "../styles/FuzzyWire.css";
 
-export default function MaterialsTab({ showToast }) {
+export default function WrapperTab({ showToast }) {
   const [items,        setItems]        = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [showModal,    setShowModal]    = useState(false);
@@ -18,7 +18,7 @@ export default function MaterialsTab({ showToast }) {
 
   const fetchItems = async () => {
     setLoading(true);
-    const q = query(collection(db, "materials"), orderBy("createdAt", "desc"));
+    const q = query(collection(db, "wrappers"), orderBy("createdAt", "desc"));
     const snap = await getDocs(q);
     setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     setLoading(false);
@@ -27,42 +27,42 @@ export default function MaterialsTab({ showToast }) {
   useEffect(() => { fetchItems(); }, []);
 
   const handleAdd = async (data) => {
-    await addDoc(collection(db, "materials"), {
+    await addDoc(collection(db, "wrappers"), {
       ...data,
       createdAt: serverTimestamp(),
     });
     await fetchItems();
     setShowModal(false);
-    showToast("✅ Material added!");
+    showToast("✅ Wrapper added!");
   };
 
   const handleEdit = async (data) => {
-    await updateDoc(doc(db, "materials", editItem.id), data);
+    await updateDoc(doc(db, "wrappers", editItem.id), data);
     await fetchItems();
     setEditItem(null);
-    showToast("✏️ Material updated!");
+    showToast("✏️ Wrapper updated!");
   };
 
   const handleDelete = async () => {
-    await deleteDoc(doc(db, "materials", deleteTarget.id));
+    await deleteDoc(doc(db, "wrappers", deleteTarget.id));
     await fetchItems();
     setDeleteTarget(null);
-    showToast("🗑️ Material deleted.");
+    showToast("🗑️ Wrapper deleted.");
   };
 
   return (
     <div className="tab-content">
       <div className="tab-toolbar">
-        <span className="item-count">{items.length} materials</span>
+        <span className="item-count">{items.length} wrappers</span>
         <button className="btn-primary" onClick={() => setShowModal(true)}>
-          + Add Material
+          + Add Wrapper
         </button>
       </div>
 
       {loading ? (
         <div className="empty-state">Loading…</div>
       ) : items.length === 0 ? (
-        <div className="empty-state">No materials yet. Add one!</div>
+        <div className="empty-state">No wrappers yet. Add one!</div>
       ) : (
         <div className="wire-list">
           {items.map((item) => {
@@ -71,9 +71,15 @@ export default function MaterialsTab({ showToast }) {
               : 0;
             return (
               <div className="wire-card" key={item.id}>
-                <div className="wire-identity" style={{ flex: 1 }}>
+
+                <div className="wire-identity">
+                  <div
+                    className="color-swatch"
+                    style={{ background: item.colorHex || "#ccc" }}
+                  />
                   <div className="wire-info">
                     <span className="wire-name">{item.name}</span>
+                    <span className="wire-color-label">{item.colorName}</span>
                   </div>
                 </div>
 
@@ -97,6 +103,7 @@ export default function MaterialsTab({ showToast }) {
                   <button className="icon-btn edit-btn" onClick={() => setEditItem(item)}>✏️</button>
                   <button className="icon-btn del-btn" onClick={() => setDeleteTarget(item)}>🗑️</button>
                 </div>
+
               </div>
             );
           })}
@@ -104,10 +111,10 @@ export default function MaterialsTab({ showToast }) {
       )}
 
       {showModal && (
-        <MaterialModal onClose={() => setShowModal(false)} onSave={handleAdd} />
+        <WrapperModal onClose={() => setShowModal(false)} onSave={handleAdd} />
       )}
       {editItem && (
-        <MaterialModal item={editItem} onClose={() => setEditItem(null)} onSave={handleEdit} />
+        <WrapperModal item={editItem} onClose={() => setEditItem(null)} onSave={handleEdit} />
       )}
       {deleteTarget && (
         <ConfirmModal
